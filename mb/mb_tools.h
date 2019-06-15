@@ -24,7 +24,6 @@ typedef double   f64;
 // Defer macro/thing.
 #define CONCAT_INTERNAL(x,y) x##y
 #define CONCAT(x,y) CONCAT_INTERNAL(x,y)
-#define KEY_ GLFW_KEY
 
 template<typename T>
 struct ExitScope {
@@ -71,7 +70,7 @@ void light_source(int index, f32 bright, f32 x, f32 y, f32 z) {
 }
 
 void simple_light(int index, f32 bright, f32 x, f32 y, f32 z) {
-    f32 d = (f32) (1.0f/sqrt(x*x+y*y+z*z));
+    f32 d = (f32) (1.0f/sqrtf(x*x+y*y+z*z));
     f32 dir[4] = { x*d,y*d,z*d,0 }, zero[4] = { 0,0,0,0 };
     f32 c[4] = { bright,bright,bright,0 };
     GLuint light = GL_LIGHT0 + index;

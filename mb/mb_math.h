@@ -1,4 +1,6 @@
-#include <math.h>
+#define sqrtf __builtin_sqrtf
+#define sinf __builtin_sinf
+#define cosf __builtin_cosf
 
 struct Vec2 {
     f32 x;

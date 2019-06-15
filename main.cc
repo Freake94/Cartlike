@@ -13,7 +13,7 @@ struct GameState {
 };
 
 void render(GameState* gs) {
-    
+    create_cube(&gs->rq, {1, 1, 1}, {1, 1, 1}, {1, 0, 0, 1});
     create_cube(&gs->rq, {0, 0, 0}, {1, 1, 1}, {1, 1, 1, 1});
     create_cube(&gs->rq, gs->player.pos, {1, 1, 1}, {0, 1, 0, 1});
     render(&gs->rq);
