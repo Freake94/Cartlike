@@ -107,8 +107,17 @@ union Mat4 {
         Vec4 x, y, z, w;
     };
     f32 m[4][4];
+    f32 p[16];
 };
 
 static Mat4 mul(Mat4 a, Mat4 b) {
-    
+    Mat4 c = {};
+    for(int col = 0; col < 4; col++) {
+        for(int row = 0; row < 4; row++) {
+            for(int i = 0; i < 4; i++) {
+                c.m[col][row] += a.m[col][i] * b.m[i][row];
+            }
+        }
+    }
+    return c;
 }
