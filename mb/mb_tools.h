@@ -117,7 +117,7 @@ static void window_update(RenderWindow* w) {
     glfwPollEvents();
     
     if(w->depth) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    else glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    else glClear(GL_COLOR_BUFFER_BIT);
     
     Vec2 wSize = get_window_size(w);
     glViewport(0, 0, wSize.x, wSize.y);
