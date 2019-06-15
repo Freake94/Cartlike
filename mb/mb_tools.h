@@ -239,8 +239,6 @@ static void set_render_color(Vec4 col) {
 }
 
 static void render(RenderQueue* rq) {
-    //defer { free(rq->triangle); };
-    //defer { rq->amount = 0; };
     glBegin(GL_TRIANGLES);
     for(int i = 0; i < rq->amount; i++) {
         Triangle* tri = &rq->triangle[i];

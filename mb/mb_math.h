@@ -45,59 +45,59 @@ static Vec2 norm(Vec2 a) {
 }
 
 // ------------------- 3D ------------------- //
-static Vec3 mul(Vec3 a, f32 f) {
+static Vec3 mul(const Vec3& a, f32 f) {
     return {a.x * f, a.y * f, a.z * f};
 }
 
-static Vec3 add(Vec3 a, Vec3 b) {
+static Vec3 add(const Vec3& a, const Vec3& b) {
     return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
 
-static Vec3 sub(Vec3 a, Vec3 b) {
+static Vec3 sub(const Vec3& a, const Vec3& b) {
     return {a.x - b.x, a.y - b.y, a.z - b.z};
 }
 
-static Vec3 sadd(Vec3 a, Vec3 b, f32 f) {
+static Vec3 sadd(const Vec3& a, const Vec3& b, f32 f) {
     return {a.x + b.x * f, a.y + b.y * f, a.z + b.z * f};
 }
 
-static f32 len(Vec3 a) {
+static f32 len(const Vec3& a) {
     return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
-static Vec3 norm(Vec3 a) {
+static Vec3 norm(const Vec3& a) {
     f32 l = len(a);
     return {a.x / l, a.y / l, a.z / l};
 }
 
-static Vec3 cross(Vec3 a, Vec3 b) {
+static Vec3 cross(const Vec3& a, const Vec3& b) {
     return {a.y * b.z - b.y * a.z,
         a.z * b.x - b.z * a.x,
         a.x * b.y - b.x * a.y};
 }
 
 // ------------------- 4D ------------------- //
-static Vec4 mul(Vec4 a, f32 f) {
+static Vec4 mul(const Vec4& a, f32 f) {
     return {a.x * f, a.y * f, a.z * f, a.w * f};
 }
 
-static Vec4 add(Vec4 a, Vec4 b) {
+static Vec4 add(const Vec4& a, const Vec4& b) {
     return {a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w};
 }
 
-static Vec4 sub(Vec4 a, Vec4 b) {
+static Vec4 sub(const Vec4& a, const Vec4& b) {
     return {a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w};
 }
 
-static Vec4 sadd(Vec4 a, Vec4 b, f32 f) {
+static Vec4 sadd(const Vec4& a, const Vec4& b, f32 f) {
     return {a.x + b.x * f, a.y + b.y * f, a.z + b.z * f, a.w + b.w * f};
 }
 
-static f32 len(Vec4 a) {
+static f32 len(const Vec4& a) {
     return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
 }
 
-static Vec4 norm(Vec4 a) {
+static Vec4 norm(const Vec4& a) {
     f32 l = len(a);
     return {a.x / l, a.y / l, a.z / l, a.w / l};
 }
@@ -110,7 +110,7 @@ union Mat4 {
     f32 p[16];
 };
 
-static Mat4 mul(Mat4 a, Mat4 b) {
+Mat4 mul(const Mat4& a, const Mat4& b) {
     Mat4 c = {};
     for(int col = 0; col < 4; col++) {
         for(int row = 0; row < 4; row++) {
