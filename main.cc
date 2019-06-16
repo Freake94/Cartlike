@@ -61,7 +61,7 @@ void update(GameState* gs) {
 
 void init(GameState* gs) {
     gs->window = create_window(800, 600, "Cartlike", 1);
-    gs->player = {{0, 0, 0,}, {0, 0, 0}};
+    gs->player = {{0, 0, 0}, {0, 0, 0}};
     gs->rq = create_render_queue(1024 * 1024);
     camera_create(&gs->camera, {10, 10, -10}, gs->player.pos, {0, 1, 0});
     glEnable(GL_LIGHTING);
@@ -69,21 +69,24 @@ void init(GameState* gs) {
     light_source(0, .5, 5, 0, -10);
 }
 
+void window_title_update(RenderWindow* window) {
+    static float title_time = 0.0f;
+    char buffer[8];
+    sprintf(buffer, "%f", window->deltaT * 1000);
+    if(title_time > 0.3) {
+        set_title(window, buffer);
+        title_time = 0.0f;
+    }
+    title_time += window->deltaT;
+}
+
 int main() {
     GameState gs;
     init(&gs);
-    float title_time = 0.0f;
     while(window_is_open(&gs.window)) {
         key_inputs(&gs);
         update(&gs);
         render(&gs);
-        
-        char buffer[8];
-        sprintf(buffer, "%f", gs.window.deltaT * 1000);
-        if(title_time > 0.3) {
-            set_title(&gs.window, buffer);
-            title_time = 0.0f;
-        }
-        title_time += gs.window.deltaT;
+        window_title_update(&gs.window);
     }
 }
