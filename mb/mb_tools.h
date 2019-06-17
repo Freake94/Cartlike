@@ -224,10 +224,10 @@ static void create_cube(RenderQueue* rq, Vec3 pos, Vec3 scale, Vec4 col) {
 }
 
 static void create_line(RenderQueue* rq, Vec2 start_pos, Vec2 end_pos, f32 width, Vec4 col) {
-    Vec2 normal = sub(end_pos, start_pos);
+    Vec2 normal = end_pos - start_pos;
     normal = {normal.y, -normal.x};
     normal = norm(normal);
-    Vec2 dir = mul(normal, width);
+    Vec2 dir = normal * width;
     Vec3 array[] = {{start_pos.x - dir.x, start_pos.y - dir.y}, {end_pos.x - dir.x, end_pos.y - dir.y}, 
         {end_pos.x + dir.x, end_pos.y + dir.y}, {start_pos.x + dir.x, start_pos.y + dir.y}};
     add_rectangle(rq, array, col, {0, 0, 1});
@@ -265,13 +265,13 @@ struct Camera {
 static Camera camera_create(Camera* camera, Vec3 position, Vec3 target, Vec3 up) {
     camera->pos = position;
     camera->target = target;
-    camera->dir = norm(sub(camera->pos, camera->target));
+    camera->dir = norm(camera->pos - camera->target);
     camera->right = norm(cross(up, camera->dir));
     camera->up = cross(camera->dir, camera->right);
 }
 
 static void camera_update(Camera* c, Vec2 wSize) {
-    c->dir = norm(sub(c->pos, c->target));
+    c->dir = norm(c->pos - c->target);
     c->right = norm(cross(c->up, c->dir));
     c->up = cross(c->dir, c->right);
     glMatrixMode(GL_PROJECTION);

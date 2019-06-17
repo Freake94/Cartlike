@@ -3,33 +3,52 @@
 #define cosf __builtin_cosf
 
 struct Vec2 {
-    f32 x;
-    f32 y;
+    struct {
+        f32 x, y;
+    };
+    f32 u[2];
+    inline f32&       operator[](int i)       { return u[i]; }
+    inline const f32& operator[](int i) const { return u[i]; } 
 };
 
 struct Vec3 {
-    f32 x;
-    f32 y;
-    f32 z;
+    struct {
+        f32 x, y, z;
+    };
+    f32 u[3];
+    inline f32&       operator[](int i)       { return u[i]; }
+    inline const f32& operator[](int i) const { return u[i]; } 
 };
 
-struct Vec4 {
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 w;
+union Vec4 {
+    struct {
+        f32 x, y, z, w;
+    };
+    f32 u[4];
+    inline f32&       operator[](int i)       { return u[i]; }
+    inline const f32& operator[](int i) const { return u[i]; } 
+};
+
+union Mat4 {
+    struct {
+        Vec4 x, y, z, w;
+    };
+    f32 u[4][4];
+    f32 p[16];
+    inline f32&       operator()(int i, int j)       { return u[j][i]; }
+    inline const f32& operator()(int i, int j) const { return u[j][i]; }
 };
 
 // ------------------- 2D ------------------- //
-static Vec2 mul(Vec2 a, f32 f) {
+static Vec2 operator * (Vec2 a, f32 f) {
     return {a.x * f, a.y * f};
 }
 
-static Vec2 add(Vec2 a, Vec2 b) {
+static Vec2 operator + (Vec2 a, Vec2 b) {
     return {a.x + b.x, a.y + b.y};
 }
 
-static Vec2 sub(Vec2 a, Vec2 b) {
+static Vec2 operator - (Vec2 a, Vec2 b) {
     return {a.x - b.x, a.y - b.y};
 }
 
@@ -47,15 +66,15 @@ static Vec2 norm(Vec2 a) {
 }
 
 // ------------------- 3D ------------------- //
-static Vec3 mul(const Vec3& a, f32 f) {
+static Vec3 operator * (const Vec3& a, f32 f) {
     return {a.x * f, a.y * f, a.z * f};
 }
 
-static Vec3 add(const Vec3& a, const Vec3& b) {
+static Vec3 operator + (const Vec3& a, const Vec3& b) {
     return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
 
-static Vec3 sub(const Vec3& a, const Vec3& b) {
+static Vec3 operator - (const Vec3& a, const Vec3& b) {
     return {a.x - b.x, a.y - b.y, a.z - b.z};
 }
 
@@ -79,15 +98,15 @@ static Vec3 cross(const Vec3& a, const Vec3& b) {
 }
 
 // ------------------- 4D ------------------- //
-static Vec4 mul(const Vec4& a, f32 f) {
+static Vec4 operator * (const Vec4& a, f32 f) {
     return {a.x * f, a.y * f, a.z * f, a.w * f};
 }
 
-static Vec4 add(const Vec4& a, const Vec4& b) {
+static Vec4 operator + (const Vec4& a, const Vec4& b) {
     return {a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w};
 }
 
-static Vec4 sub(const Vec4& a, const Vec4& b) {
+static Vec4 operator - (const Vec4& a, const Vec4& b) {
     return {a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w};
 }
 
@@ -104,20 +123,22 @@ static Vec4 norm(const Vec4& a) {
     return {a.x / l, a.y / l, a.z / l, a.w / l};
 }
 
-union Mat4 {
-    struct {
-        Vec4 x, y, z, w;
-    };
-    f32 m[4][4];
-    f32 p[16];
-};
+static Vec4 operator * (const Mat4& m, const Vec4& v) {
+    Vec4 vec = {};
+    for(int col = 0; col < 4; col++) {
+        for(int row = 0; row < 4; row++) {
+            vec[col] += m(row, col) * v[row];
+        }
+    }
+    return vec;
+}
 
-Mat4 mul(const Mat4& a, const Mat4& b) {
+static Mat4 operator * (const Mat4& a, const Mat4& b) {
     Mat4 c = {};
     for(int col = 0; col < 4; col++) {
         for(int row = 0; row < 4; row++) {
             for(int i = 0; i < 4; i++) {
-                c.m[col][row] += a.m[col][i] * b.m[i][row];
+                c(row, col) += a(i, col) * b(row, i);
             }
         }
     }

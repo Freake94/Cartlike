@@ -13,8 +13,11 @@ struct GameState {
 };
 
 void render(GameState* gs) {
-    create_cube(&gs->rq, {1, 1, 1}, {1, 1, 1}, {1, 0, 0, 1});
-    create_cube(&gs->rq, {0, 0, 0}, {1, 1, 1}, {1, 1, 1, 1});
+    {//XYZ
+        create_cube(&gs->rq, {.5, .1, .1}, {.5, .1, .1}, {1, 0, 0, 1});
+        create_cube(&gs->rq, {.1, .5, .1}, {.1, .5, .1}, {0, 1, 0, 1});
+        create_cube(&gs->rq, {.1, .1, .5}, {.1, .1, .5}, {0, 0, 1, 1});
+    }
     create_cube(&gs->rq, gs->player.pos, {1, 1, 1}, {0, 1, 0, 1});
     render(&gs->rq);
 }
@@ -80,6 +83,37 @@ void window_title_update(RenderWindow* window) {
     title_time += window->deltaT;
 }
 
+void vector_fun() {
+    Vec4 v = {1, 2, 3, 4};
+    Mat4 a {
+        1.0f,2.0f,3.0f,4.0f, 
+        5.0f,6.0f,7.0f,8.0f, 
+        9.0f,10.0f,11.0f,12.0f, 
+        13.0f,14.0f,15.0f,16.0f
+    };
+    Mat4 b { 
+        22.0f, 0.0f, 11.0f, 33.0f, 
+        1.0f, 2.0f, 3.0f, 4.0f, 
+        5.0f, 4.0f, 1.0f, 2.0f, 
+        11.0f, 91.0f, 32.0f, 42.0f
+    };
+    
+    Mat4 m = a * b;
+    Vec4 vv = a * v;
+    printf("Matrix:\n");
+    for(int j = 0; j < 4; j++) {
+        printf("{ ");
+        for(int i = 0; i < 4; i++) {
+            printf("%0.f\t", m(i, j));
+        }
+        puts(" }");
+    }
+    puts("\nVector:");
+    for(int i = 0; i < 4; i++) {
+        printf("%0.f\n", vv[i]);
+    }
+}
+
 int main() {
     GameState gs;
     init(&gs);
@@ -89,4 +123,5 @@ int main() {
         render(&gs);
         window_title_update(&gs.window);
     }
+    vector_fun();
 }
