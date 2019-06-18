@@ -48,7 +48,6 @@ struct RenderWindow {
     GLFWwindow* window;
     f64 deltaT;
     f64 old_time;
-    u8 depth;
 };
 
 static f64 get_time() {
@@ -89,19 +88,19 @@ static Vec2 get_window_size(RenderWindow* w) {
     return {(f32)x, (f32)y};
 }
 
-static RenderWindow create_window(f32 width, f32 height, const char* title, u8 depth) {
+static RenderWindow create_window(f32 width, f32 height, const char* title, int samples) {
     glfwInit();
     srand(time(nullptr));
+
+    glfwWindowHint(GLFW_SAMPLES, samples);
+
     GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
     glfwMakeContextCurrent(window);
-    if(depth) {
-        glEnable(GL_DEPTH_TEST);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-    else {
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-    return (RenderWindow){window, 0, 0, depth};
+
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    return { window, 0.0, 0.0 };
 }
 
 static void update_deltaT(RenderWindow* w) {
@@ -115,8 +114,7 @@ static void window_update(RenderWindow* w) {
     glfwSwapBuffers(w->window);
     glfwPollEvents();
     
-    if(w->depth) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    else glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     Vec2 wSize = get_window_size(w);
     glViewport(0, 0, wSize.x, wSize.y);
