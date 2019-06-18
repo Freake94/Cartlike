@@ -89,10 +89,10 @@ static Vec2 get_window_size(RenderWindow* w) {
     return {(f32)x, (f32)y};
 }
 
-static RenderWindow create_window(f32 width, f32 height, const char* c, u8 depth) {
+static RenderWindow create_window(f32 width, f32 height, const char* title, u8 depth) {
     glfwInit();
     srand(time(nullptr));
-    GLFWwindow* window = glfwCreateWindow(width, height, c, NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
     glfwMakeContextCurrent(window);
     if(depth) {
         glEnable(GL_DEPTH_TEST);
