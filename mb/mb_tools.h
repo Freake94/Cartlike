@@ -152,19 +152,29 @@ struct Triangle {
 
 struct RenderQueue {
     i32 amount;
+	i32 length;
     Triangle* triangle;
 };
 
-static RenderQueue create_render_queue(int triangle_max_length) {
+static RenderQueue create_render_queue() {
     RenderQueue rq;
-    rq.triangle = (Triangle*)malloc(sizeof(Triangle) * triangle_max_length);
+	rq.length = 1;
+	rq.triangle = (Triangle*)malloc(sizeof(Triangle));
     rq.amount = 0;
 	return rq;
+}
+
+static void increase_render_queue(RenderQueue* rq) {
+	rq->length *= 2;
+	rq->triangle = (Triangle*)realloc(rq->triangle, rq->length * sizeof(Triangle));
 }
 
 static void add_triangle(RenderQueue* rq, Triangle tri) {
     rq->triangle[rq->amount] = tri;
     rq->amount++;
+	if(rq->amount >= rq->length) {
+		increase_render_queue(rq);
+	}
 }
 
 static void add_rectangle(RenderQueue* rq, const Vec3 pos[3], Vec4 color, Vec3 normal) {

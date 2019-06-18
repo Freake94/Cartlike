@@ -126,6 +126,7 @@
 #define KEY_MENU               348
 
 #define KEY_LAST               KEY_MENU
+
 /*
 #define MOD_SHIFT           0x0001
 
@@ -139,6 +140,7 @@
 
 #define MOD_NUM_LOCK        0x0020
 */
+
 #define MOUSE_BUTTON_1         0
 #define MOUSE_BUTTON_2         1
 #define MOUSE_BUTTON_3         2
@@ -199,3 +201,53 @@
 #define GAMEPAD_AXIS_LEFT_TRIGGER  4
 #define GAMEPAD_AXIS_RIGHT_TRIGGER 5
 #define GAMEPAD_AXIS_LAST          GAMEPAD_AXIS_RIGHT_TRIGGER
+
+#define cos        __builtin_cos
+#define cosf       __builtin_cosf
+#define sin        __builtin_sin
+#define sinf       __builtin_sinf
+#define sqrt       __builtin_sqrt
+#define sqrtf      __builtin_sqrtf
+#define printf     __builtin_printf
+#define scanf      __builtin_scanf
+#define memcpy     __builtin_memcpy
+#define abs        __builtin_abs
+
+/*
+#define expect     __builtin_expect
+#define memcmp     __builtin_memcmp
+#define strcmp     __builtin_strcmp
+#define strlen     __builtin_strlen
+#define strncmp    __builtin_strncmp
+#define abort      __builtin_abort
+#define prefetch   __builtin_prefetch
+#define constant_p __builtin_constant_p
+#define labs       __builtin_labs
+#define fabs       __builtin_fabs
+#define fabsf      __builtin_fabsf
+#define fputs      __builtin_fputs
+#define memset     __builtin_memset
+#define strcat     __builtin_strcat
+#define strcpy     __builtin_strcpy
+#define strncpy    __builtin_strncpy
+#define exit       __builtin_exit
+#define strchr     __builtin_strchr
+#define strspn     __builtin_strspn
+#define strcspn    __builtin_strcspn
+#define strstr     __builtin_strstr
+#define strpbrk    __builtin_strpbrk
+#define strrchr    __builtin_strrchr
+#define strncat    __builtin_strncat
+#define ffs        __builtin_ffs
+#define rindex     __builtin_rindex
+#define bcmp       __builtin_bcmp
+#define bzero      __builtin_bzero
+#define fabsl      __builtin_fabsl
+#define alloca     __builtin_alloca
+#define index      __builtin_index
+#define sinl       __builtin_sinl
+#define cosl       __builtin_cosl
+#define sqrtl      __builtin_sqrtl
+#define fprintf    __builtin_fprintf
+#define fscanf     __builtin_fscanf
+*/
